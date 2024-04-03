@@ -1,0 +1,67 @@
+<div class="row">
+    <div class="col-6 m-auto">
+    <div class="card m-auto">
+      <div class="card-header">
+        Register
+      </div>
+      <div class="card-body">
+        <form [formGroup]="RegisterForm" (ngSubmit)="OnSubmit()">
+          <div class="form-group col-12">
+              <label for="name" class="form-label">Name</label>
+              <input type="text" class="form-control" formControlName="name">
+              <span class="text-danger">{{displayError('name')}}</span>
+
+              <!-- <span *ngIf="RegisterForm.get('name')?.invalid && (RegisterForm.get('name')?.touched || RegisterForm.get('name')?.dirty)" class="text-danger">
+                This Field is Required
+              </span> -->
+          </div>
+  
+          <div class="form-group col-12">
+            <label for="email" class="form-label">Email</label>
+            <input type="text" class="form-control" formControlName="email">
+            <!-- <span *ngIf="RegisterForm.get('email')?.invalid && (RegisterForm.get('email')?.touched || RegisterForm.get('email')?.dirty)" class="text-danger">
+                This Field is Required
+              </span> -->
+              <span class="text-danger">{{displayError('email')}}</span>
+          </div>
+  
+          <div class="form-group col-12">
+            <label for="passwrod" class="form-label">Password</label>
+            <input type="text" class="form-control" formControlName="password">
+            <!-- <span *ngIf="RegisterForm.get('password')?.invalid && (RegisterForm.get('password')?.touched || RegisterForm.get('password')?.dirty)" class="text-danger">
+                This Field is Required
+            </span> -->
+            <span class="text-danger">{{displayError('password')}}</span>
+          </div>
+  
+          <div class="form-group col-12">
+            <label for="cpassword" class="form-label">Confirm Password</label>
+            <input type="text" class="form-control" formControlName="ConfirmPWD">
+             <!-- <span>{{displayError('ConfirmPWD')}}</span> -->
+             <!-- <span *ngIf="RegisterForm.get('ConfirmPWD')?.invalid && (RegisterForm.get('ConfirmPWD')?.touched || RegisterForm.get('ConfirmPWD')?.dirty)" class="text-danger">
+                This Field is Required
+            </span> -->
+             <span class="text-danger" *ngIf="RegisterForm.hasError('passwordMismatch')">
+                Passwords do not match.
+            </span>
+            <span class="text-danger">{{displayError('ConfirmPWD')}}</span>
+          </div>
+  
+          <div class="form-group col-12">
+            <label for="mobile" class="form-label">Mobile</label>
+            <input type="text" class="form-control" formControlName="mobile">
+            <!-- <span *ngIf="RegisterForm.get('mobile')?.invalid && (RegisterForm.get('mobile')?.touched || RegisterForm.get('mobile')?.dirty)" class="text-danger">
+                This Field is Required
+            </span> -->
+            <span class="text-danger">{{displayError('mobile')}}</span>
+          </div>
+  
+          <div class="form-group col-12">
+            <button type="submit" class="btn btn-primary">Save</button>
+            <button type="reset" class="btn btn-secondary ml-2">Cancel</button>
+          </div>
+        </form>
+      </div>
+    </div>
+    </div>
+  </div>
