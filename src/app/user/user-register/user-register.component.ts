@@ -1,5 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import {AbstractControl, FormBuilder,FormControl,FormGroup, Validators} from '@angular/forms'
+import { UserServiceService } from 'src/app/service/user-service.service';
+import {user}  from '../../model/user';
+import {AlertMessageService} from 'src/app/service/alert-message.service'
+
 
 @Component({
   selector: 'app-user-register',
@@ -8,7 +12,9 @@ import {AbstractControl, FormBuilder,FormControl,FormGroup, Validators} from '@a
 })
 export class UserRegisterComponent implements OnInit{
   RegisterForm!:FormGroup;
-  constructor(private fb:FormBuilder){}
+  CurrentUser!:user;
+  userSubmited:boolean=false;
+  constructor(private fb:FormBuilder, private userService:UserServiceService, private alertMsg:AlertMessageService){}
 
   ngOnInit(): void {
     this.createForm();
@@ -37,18 +43,56 @@ export class UserRegisterComponent implements OnInit{
     }
     return null;
   }
-  
+
   displayError(control:any){
     let field = this.RegisterForm.get(control)
-    if(field?.invalid && (field?.touched || field?.dirty)){
+    if(field?.invalid && (field?.touched || field?.dirty) || this.userSubmited){
       return 'This Field Required'
     }else{
       return ''
     }
   }
 
+ 
   OnSubmit(){
-    console.log(this.RegisterForm)
+    this.userSubmited=true;
+    if(this.RegisterForm.valid){
+      // this.CurrentUser = Object.assign(this.CurrentUser, this.RegisterForm.value)
+      this.userService.addUser(this.userData())
+      this.RegisterForm.reset();
+      this.userSubmited=false;
+      this.alertMsg.Success("Congrats,you are successfully registered")
+    }else{
+      this.alertMsg.Failure("kindly provide required fields")
+    }
   }
+
+  userData():user{
+    return this.CurrentUser ={
+      name: this.Username.value,
+      email: this.email.value,
+      password: this.password.value,
+      ConfirmPWD: this.confirmPWD.value,
+      mobile:this.mobile.value 
+    }
+  }
+
+  get Username(){
+    return this.RegisterForm.get('name') as FormControl
+  }
+  get email(){
+    return this.RegisterForm.get('email') as FormControl
+  }
+  get password(){
+    return this.RegisterForm.get('password') as FormControl
+  }
+  get confirmPWD(){
+    return this.RegisterForm.get('ConfirmPWD') as FormControl
+  }
+  get mobile(){
+    return this.RegisterForm.get('mobile') as FormControl
+  }
+
+
 
 }
