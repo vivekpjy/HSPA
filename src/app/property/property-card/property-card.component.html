@@ -4,7 +4,7 @@
             <div class="card-img-wrapper">
                 <img *ngIf="property.Image" class="card-img-top" src="assets/image/{{property.Image}}.jpg" >
                 <img *ngIf="!property.Image" class="card-img-top" src="assets/image/house-clipart.jpg" >
-                <ul class="list-inline text-center member-icon animate">
+                <ul *ngIf="!hideIcons" class="list-inline text-center member-icon animate">
                     <li class="list-inline-item">
                         <button class="btn btn-primary" routerLink="/property-detail/{{property.Id}}">
                             <!-- <i class="fa-regular fa-pen-to-square"></i> -->
@@ -21,11 +21,21 @@
                 </ul>
             </div>
             <div class="card-body p-2">
-                <h3>{{property.Id}}</h3>
-                <h3>{{property.Name}}</h3>
-                <h3>{{property.Type}}</h3>
-                <h3>{{property.Price}}</h3>
-            </div>
+                <h1 class="mb-0"> {{property.BHK}} BHK {{property.PType}} </h1>
+
+                in {{property.Name}}
+                <span *ngIf="property.Name">,</span>
+                {{property.City}}
+            
+                <h6  class="mt-2">{{property.FType}}
+                <span *ngIf="property.FType !== 'Unfurnished'">Furnished</span> | Ready to Move</h6>
+            
+                <hr class="mt-0 mb-2">
+            
+                <h6 class="mb-0">Price: <span class="font-highlight">{{property.Price}} USD.</span> |
+                  Area:  <span class="font-highlight">{{property.builtArea}} Sq Ft </span> </h6>
+              </div>
         </div>
+ 
 
 

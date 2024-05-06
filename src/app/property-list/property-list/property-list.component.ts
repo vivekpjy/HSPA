@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {HousingService} from '../../service/housing.service';
-import {IProperty} from '../../property_interface'
 import { ActivatedRoute } from '@angular/router';
+import { ipropertyBase } from 'src/app/model/ipopertyBase';
 
 @Component({
   selector: 'app-property-list',
@@ -11,7 +11,7 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class PropertyListComponent implements OnInit {
   SellRent = 1;
-  properties:Array<IProperty>=[];
+  properties:Array<ipropertyBase>=[];
   constructor(private service:HousingService, private route:ActivatedRoute){}
 
   ngOnInit(): void {
@@ -23,6 +23,11 @@ export class PropertyListComponent implements OnInit {
     }
     this.service.getAllProperty(this.SellRent).subscribe(data=>{
       this.properties =data;
+      const newData = localStorage.getItem('newPop');
+      const newProp = newData? JSON.parse(newData) : null;
+      if(newProp.SellRent === this.SellRent){
+        this.properties = [newProp, ...this.properties]
+      }
     }, error=>{
       console.log(error)
     })
